@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "648612551761",
+    "project_id": "gurry-94563",
+    "storage_bucket": "gurry-94563.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648612551761:android:ba909f0d757e22ece12c70",
+        "android_client_info": {
+          "package_name": "com.example.gurry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648612551761-jq6s7u5un52okkdlvtltt8n1m8va4c49.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gurry",
+            "certificate_hash": "ac8ed02594f4833a26a6b8da10e0eee2684fb749"
+          }
+        },
+        {
+          "client_id": "648612551761-t25nddnt424ool2cj3bkbalmo4p6atfl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUjb24WYxEn_XhrYeh26gNt4kJArVEl-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648612551761-t25nddnt424ool2cj3bkbalmo4p6atfl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
