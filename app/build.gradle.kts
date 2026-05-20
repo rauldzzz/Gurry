@@ -16,8 +16,23 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+        externalNativeBuild {
+            cmake {
+                // Longfellow requiere C++17 y extensiones de criptografía por hardware
+                cppFlags += "-std=c++17 -march=armv8-a+crypto"
+                arguments += "-DANDROID_STL=c++_shared"
 
+                // Compilamos solo para móviles modernos de 64 bits (evita errores en emuladores antiguos)
+                abiFilters += "arm64-v8a"
+            }
+        }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
     }
 
     buildTypes {
@@ -47,6 +62,7 @@ android {
     }
     buildFeatures {
         compose = true
+        prefab = true
     }
     packaging {
         jniLibs {
@@ -58,6 +74,7 @@ android {
 }
 
 dependencies {
+    implementation("com.android.ndk.thirdparty:openssl:1.1.1q-beta-1")
     implementation("io.github.sceneview:sceneview:2.0.3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation(platform("com.google.firebase:firebase-bom:34.8.0"))

@@ -1,6 +1,5 @@
 package com.example.gurry.ui.screens
 
-import AuthViewModel
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +25,7 @@ import com.example.gurry.ui.components.SpacerHeigh_S
 import com.example.gurry.ui.components.SpacerHeigh_XL
 import com.example.gurry.ui.components.usernameText
 import com.example.gurry.ui.theme.GurryTheme
+import com.example.gurry.viewmodels.AuthViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

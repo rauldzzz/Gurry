@@ -10,8 +10,8 @@ namespace public_keys {
 
     // El Verifier SOLO necesita conocer la Clave Pública de la autoridad emisora
     struct IssuerPublicKey {
-        proofs::StaticString pkx;
-        proofs::StaticString pky;
+        StaticString pkx;
+        StaticString pky;
     };
 
     // Claves Públicas de ejemplo (La "Policía")
@@ -20,4 +20,4 @@ namespace public_keys {
             StaticString("0x194a7debcb97712d2dda3ca85aa8765a56f45fc758599652f2897c65306e5794")
     };
 
-}} // namespace custom_mock
+} // namespace custom_mock

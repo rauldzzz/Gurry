@@ -1,6 +1,5 @@
 package com.example.gurry.ui.screens
 
-import AuthViewModel
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -24,6 +23,7 @@ import com.example.gurry.ui.components.SpacerHeigh_M
 import com.example.gurry.ui.components.SpacerHeigh_S
 import com.example.gurry.ui.components.SpacerWidth_S
 import com.example.gurry.ui.theme.GurryTheme
+import com.example.gurry.viewmodels.AuthViewModel
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 

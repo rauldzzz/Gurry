@@ -1,7 +1,5 @@
 package com.example.gurry.ui.components
 
-import AuthViewModel
-import RegistrationData
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -20,6 +18,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.gurry.R
+import com.example.gurry.viewmodels.AuthViewModel
+import com.example.gurry.viewmodels.RegistrationData
 
 
 @Composable

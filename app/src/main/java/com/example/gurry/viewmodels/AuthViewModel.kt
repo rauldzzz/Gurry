@@ -1,3 +1,4 @@
+package com.example.gurry.viewmodels
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -6,11 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gurry.database.UserEntity
 import com.example.gurry.database.UserEntityDao
-import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,13 +22,14 @@ import kotlinx.coroutines.launch
 sealed class AuthState {
     object Idle : AuthState()
     object Loading : AuthState()
-    data class Success(val user: com.google.firebase.auth.FirebaseUser?) : AuthState()
+    data class Success(val user: FirebaseUser?) : AuthState()
     data class Error(val message: String) : AuthState()
 }
 
 data class RegistrationData(
     val username: String = "",
-    val profilePicUrl: String = "img_1" // Imagen por defecto
+    val profilePicUrl: String = "img_1", // Imagen por defecto
+    val isAgeVerified: Boolean = false
 )
 
 sealed interface RegisterAction {
@@ -52,9 +55,35 @@ class AuthViewModel(private val userDao: UserEntityDao) : ViewModel() {
     val currentUserData = _currentUserData.asStateFlow()
     private var userJob: Job? = null
     init {
+        System.loadLibrary("gurry_native")
         checkCurrentUser()
     }
+    private external fun verificarPruebaZkNativa(
+        proof: ByteArray,
+        transcript: ByteArray,
+        cacheDir: String,
+    ): Boolean
 
+    // 2. Función que llama la UI al recibir el Intent
+    fun verificarPrueba(proofBytes: ByteArray, transcriptBytes: ByteArray,cacheDirPath: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _authState.value = AuthState.Loading
+
+            // Llamamos a C++ pasándole el ByteArray recibido de la Wallet
+            val esValido = verificarPruebaZkNativa(proofBytes, transcriptBytes, cacheDirPath)
+
+            if (esValido) {
+                Log.i("GurryVerifier", "✅ PRUEBA VÁLIDA. El usuario es mayor de edad.")
+                _registrationState.update { it.copy(isAgeVerified = true) }
+                _authState.value = AuthState.Idle
+                // Aquí podrías habilitar el botón de "Continue" o avanzar al siguiente paso
+            } else {
+                Log.e("GurryVerifier", "❌ PRUEBA INVÁLIDA O RECHAZADA.")
+                _registrationState.update { it.copy(isAgeVerified = false) }
+                _authState.value = AuthState.Error("Fallo en la verificación criptográfica")
+            }
+        }
+    }
     fun prepareGetCredentialRequest(): GetCredentialRequest {
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(true)
@@ -154,6 +183,11 @@ class AuthViewModel(private val userDao: UserEntityDao) : ViewModel() {
     fun completeRegistration() {
         val currentUser = auth.currentUser ?: return
         val registrationData = registrationState.value
+
+        if (!registrationData.isAgeVerified) {
+            _authState.value = AuthState.Error("Debes verificar tu edad con GurryWallet antes de continuar.")
+            return
+        }
 
         _authState.value = AuthState.Loading
 

@@ -1,7 +1,5 @@
 package com.example.gurry.ui.screens
 
-import AuthViewModel
-import RegistrationData
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -9,8 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,12 +29,15 @@ import com.example.gurry.ui.components.SpacerHeigh_S
 import com.example.gurry.ui.components.SpacerHeigh_XL
 import com.example.gurry.ui.components.UsernameRegisterInput
 import com.example.gurry.ui.theme.GurryTheme
+import com.example.gurry.viewmodels.AuthViewModel
+import com.example.gurry.viewmodels.RegistrationData
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun RegisterScreen(
     registrationData: RegistrationData,
-    onAction: (AuthViewModel.RegisterAction) -> Unit
+    onAction: (AuthViewModel.RegisterAction) -> Unit,
+    onLaunchWallet: () -> Unit
 ){
     val images = listOf("img_1", "img_2", "img_3", "img_4", "img_5")
     GurryTheme{
@@ -66,6 +70,37 @@ fun RegisterScreen(
                 SpacerHeigh_M()
                 Button(
                     onClick = {
+                        onLaunchWallet()
+                    },
+                    enabled = !registrationData.isAgeVerified,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .size(
+                            width = 285.dp,
+                            height = 40.dp
+                        ),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ){
+                    if(!registrationData.isAgeVerified){
+                        Text(
+                            text = "Check Age",
+                            fontWeight = FontWeight.Bold,
+                        )
+                    } else{
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Logo",
+                        )
+                    }
+
+                }
+
+
+                SpacerHeigh_M()
+                Button(
+                    onClick = {
                         onAction(AuthViewModel.RegisterAction.SubmitRegistration)
                     },
                     modifier = Modifier
@@ -75,7 +110,7 @@ fun RegisterScreen(
                             height = 40.dp
                         ),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
+                        containerColor = MaterialTheme.colorScheme.secondary
                     )
 
                 ) {
@@ -93,10 +128,12 @@ fun RegisterScreen(
 @Composable
 fun LoginScreenPreview(){
     val registrationData = RegistrationData(
-        username = "username"
+        username = "username",
+        isAgeVerified = false
     )
     RegisterScreen(
         registrationData,
+        {},
         {}
     )
 }

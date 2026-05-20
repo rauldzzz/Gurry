@@ -1,12 +1,9 @@
 package com.example.gurry.ui.screens
 
-import AuthState
-import AuthViewModel
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.credentials.CredentialManager
 import com.example.gurry.MainActivity
@@ -33,6 +29,8 @@ import com.example.gurry.ui.components.SpacerHeigh_M
 import com.example.gurry.ui.components.SpacerHeigh_S
 import com.example.gurry.ui.components.SpacerHeigh_XL
 import com.example.gurry.ui.theme.GurryTheme
+import com.example.gurry.viewmodels.AuthState
+import com.example.gurry.viewmodels.AuthViewModel
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import kotlinx.coroutines.launch
 
@@ -41,6 +39,7 @@ import kotlinx.coroutines.launch
 fun LoginScreen(
     innerPadding: PaddingValues,
     authViewModel: AuthViewModel,
+    onLaunchWallet: () -> Unit,
 ){
     val state by authViewModel.authState
     val isRegistered by authViewModel.isRegistered
@@ -77,7 +76,8 @@ fun LoginScreen(
         // Si ya se logueó pero no está registrado, forzamos la pantalla de registro
         RegisterScreen(
             registrationData = registrationData,
-            onAction = { action -> authViewModel.onRegisterAction(action) }
+            onAction = { action -> authViewModel.onRegisterAction(action) },
+            onLaunchWallet
         )
     }
     else {

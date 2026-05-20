@@ -17,7 +17,8 @@ fun HomeTopBar(cups: Int?, level: Int?, experience: Int?, portrait: String?, bal
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp), // Margen general
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween, // Separa izquierda y derecha al máximo
         verticalAlignment = Alignment.CenterVertically
     ) {

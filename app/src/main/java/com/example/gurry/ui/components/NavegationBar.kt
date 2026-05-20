@@ -1,6 +1,5 @@
 package com.example.gurry.ui.components
 
-import AuthViewModel
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -40,6 +39,7 @@ import com.example.gurry.ui.theme.Market
 import com.example.gurry.ui.theme.Stable
 import com.example.gurry.ui.viewmodels.MarketViewModel
 import com.example.gurry.ui.viewmodels.StableViewModel
+import com.example.gurry.viewmodels.AuthViewModel
 
 @Composable
 fun NavBar(

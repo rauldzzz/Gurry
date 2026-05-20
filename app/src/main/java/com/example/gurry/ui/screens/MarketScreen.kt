@@ -1,6 +1,5 @@
 package com.example.gurry.ui.screens
 
-import AuthViewModel
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -34,6 +33,7 @@ import com.example.gurry.ui.components.SpacerHeigh_S
 import com.example.gurry.ui.components.SpacerWidth_S
 import com.example.gurry.ui.theme.GurryTheme
 import com.example.gurry.ui.viewmodels.MarketViewModel
+import com.example.gurry.viewmodels.AuthViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

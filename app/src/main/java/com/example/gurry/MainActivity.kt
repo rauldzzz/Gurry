@@ -1,6 +1,5 @@
 package com.example.gurry
 
-import AuthViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +12,7 @@ import com.example.gurry.ui.components.NavBar
 import com.example.gurry.ui.theme.GurryTheme
 import com.example.gurry.ui.viewmodels.MarketViewModel
 import com.example.gurry.ui.viewmodels.StableViewModel
+import com.example.gurry.viewmodels.AuthViewModel
 import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
